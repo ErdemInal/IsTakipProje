@@ -1,0 +1,42 @@
+﻿@model List<MusteriViewModel>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@{
+    KullaniciKayitViewModel kayitViewModel = (KullaniciKayitViewModel)ViewBag.Cookie;
+}
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+    @await Component.InvokeAsync("Urunler")
+    
+    <div class="alert alert-light lead">
+        @kayitViewModel.Ad
+        @kayitViewModel.Soyad
+        @*@ViewBag.Cookie.Ad
+        @ViewBag.Cookie.Soyad*@
+    </div>
+    
+
+    <erdem gelen-data="gd"></erdem>
+    <table>
+        <tr>
+            <td>ViewBag.Isim</td>
+            <td>@ViewBag.Isim</td>
+            @*<td>@ViewBag.Barcode</td>*@
+        </tr>
+    </table>
+
+    <h4>
+        Modelden gelen data:
+    </h4>
+
+    @*@foreach (var item in Model)
+    {
+        <p>@item.Ad</p>
+    }*@
+
+</div>
