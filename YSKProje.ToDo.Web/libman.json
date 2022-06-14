@@ -3,23 +3,13 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "library": "twitter-bootstrap@5.1.3",
-      "destination": "wwwroot/twitter-bootstrap/"
+      "library": "twitter-bootstrap@4.4.0",
+      "destination": "wwwroot/lib/twitter-bootstrap/css/twitter-bootstrap/"
     },
     {
-      "library": "jquery@3.6.0",
-      "destination": "wwwroot/jquery",
-      "files": [ "jquery.min.js", "jquery.min.map" ]
-    },
-    {
-      "library": "jquery-validate@1.19.1",
-      "destination": "wwwroot/jqueryValidate",
-      "files": [ "jquery.validate.min.js" ]
-    },
-    {
-      "library": "jquery-validation-unobtrusive@3.2.11",
-      "destination": "wwwroot/jqueryUnob",
-      "files": ["jquery.validate.unobtrusive.min.js"]
+      "library": "jquery@3.4.1",
+      "destination": "wwwroot/lib/jquery/",
+      "files": ["jquery.min.js"] 
     }
   ]
 }

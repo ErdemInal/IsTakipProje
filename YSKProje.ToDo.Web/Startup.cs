@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -8,9 +7,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using YSKProje.ToDo.Web.Middlewares;
-using Microsoft.AspNetCore.Routing.Constraints;
-using YSKProje.ToDo.Web.Constraints;
+using YSKProje.ToDo.Business.Concrete;
+using YSKProje.ToDo.Business.Interfaces;
+using YSKProje.ToDo.DataAccess.Concrete.EntityFreamworkCore.Contexts;
+using YSKProje.ToDo.DataAccess.Concrete.EntityFreamworkCore.Repositories;
+using YSKProje.ToDo.DataAccess.Interfaces;
+using YSKProje.ToDo.Entities.Concrete;
 
 namespace YSKProje.ToDo.Web
 {
@@ -26,7 +28,16 @@ namespace YSKProje.ToDo.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSession();
+            services.AddScoped<IGorevService, GorevManager>();
+            services.AddScoped<IAciliyetService, AciliyetManager>();
+            services.AddScoped<IRaporService, RaporManager>();
+
+            services.AddScoped<IGorevDal, EfGorevRepository>();
+            services.AddScoped<IAciliyetDal, EfAciliyetRepository>();
+            services.AddScoped<IRaporDal, EfRaporRepository>();
+
+            services.AddDbContext<ToDoContext>();
+            services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<ToDoContext>();
             services.AddControllersWithViews();
         }
 
@@ -39,51 +50,27 @@ namespace YSKProje.ToDo.Web
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                app.UseExceptionHandler("/Error");
             }
-            app.UseHttpsRedirection();
-            //app.UseStatusCodePages(); // olmayan sayfalar için hata kodu döndürme
-            app.UseStatusCodePagesWithReExecute("/Home/PageError", "?code={0}");
+
             app.UseStaticFiles();
-            //app.UseCustomStaticFiles();
+
             app.UseRouting();
 
             app.UseAuthorization();
-            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name:"areas",
-                    pattern:"{area}/{controller=Home}/{action=Index}/{id?}"
-                    );
+                    name: "areas",
+                    pattern: "{area}/{controller=Home}/{action=Index}/{id?}"
+                );
 
                 endpoints.MapControllerRoute(
-                        name: "programlamaRoute",
-                        pattern: "programlama/{dil}",
-                        defaults: new { controller = "Home", action = "Index" },
-                        //pattern: "{controller=Home}/{action=Index}/{id:int}",//sadece int deðer alýr kýsýtlama
-                        constraints: new { dil = new Programlama() } //sadece int deðer alýr kýsýtlama
-                        );
-
-                endpoints.MapControllerRoute(
-                        name: "kisi",
-                        pattern:"kisiler",
-                        defaults: new {controller= "Home" , action= "Index"}
-                        //pattern: "{controller=Home}/{action=Index}/{id:int}",//sadece int deðer alýr kýsýtlama
-                        //constraints: new { id = new IntRouteConstraint() }); //sadece int deðer alýr kýsýtlama
-                        );
-
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}"
-                    //pattern: "{controller=Home}/{action=Index}/{id:int}",//sadece int deðer alýr kýsýtlama
-                    //constraints: new { id = new IntRouteConstraint() }); //sadece int deðer alýr kýsýtlama
-                    );
-        
-        });
+                    name:"default",
+                    pattern:"{controller=Home}/{action=Index}/{id?}"
+                );
+            });
         }
     }
 }

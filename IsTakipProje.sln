@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YSKProje.ToDo.Business", "Y
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YSKProje.ToDo.Entities", "YSKProje.ToDo.Entities\YSKProje.ToDo.Entities.csproj", "{DEF2A701-D2B9-4DBD-B365-714AC5EAF494}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YSKProje.ToDo.Web", "YSKProje.ToDo.Web\YSKProje.ToDo.Web.csproj", "{0C82978F-AC4D-46BF-A283-C7C022590BBF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YSKProje.ToDo.Web", "YSKProje.ToDo.Web\YSKProje.ToDo.Web.csproj", "{EA637C47-191B-4BF3-9183-4F9F0663B1EC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{DEF2A701-D2B9-4DBD-B365-714AC5EAF494}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEF2A701-D2B9-4DBD-B365-714AC5EAF494}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEF2A701-D2B9-4DBD-B365-714AC5EAF494}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0C82978F-AC4D-46BF-A283-C7C022590BBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0C82978F-AC4D-46BF-A283-C7C022590BBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0C82978F-AC4D-46BF-A283-C7C022590BBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0C82978F-AC4D-46BF-A283-C7C022590BBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA637C47-191B-4BF3-9183-4F9F0663B1EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA637C47-191B-4BF3-9183-4F9F0663B1EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA637C47-191B-4BF3-9183-4F9F0663B1EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA637C47-191B-4BF3-9183-4F9F0663B1EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
