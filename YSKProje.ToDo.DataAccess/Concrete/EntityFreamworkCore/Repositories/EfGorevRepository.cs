@@ -10,6 +10,14 @@ namespace YSKProje.ToDo.DataAccess.Concrete.EntityFreamworkCore.Repositories
 {
     public class EfGorevRepository : EfGenericRepository<Gorev>, IGorevDal
     {
+        public Gorev GetirAciliyetileId(int id)
+        {
+            using (var context = new ToDoContext())
+            {
+                return context.Gorevler.Include(I => I.Aciliyet).FirstOrDefault(I => !I.Durum && I.Id == id);
+            }
+        }
+
         //public List<Calisma> GetirHepsi()
         //{
         //    using var context = new ToDoContext();
@@ -59,6 +67,14 @@ namespace YSKProje.ToDo.DataAccess.Concrete.EntityFreamworkCore.Repositories
             using (var context = new ToDoContext())
             {
                 return context.Gorevler.Include(I => I.Aciliyet).Where(I => !I.Durum).OrderByDescending(I=>I.OlusturulmaTarih).ToList();
+            }
+        }
+
+        public List<Gorev> GetirTumTablolarla()
+        {
+            using (var context = new ToDoContext())
+            {
+                return context.Gorevler.Include(I => I.Aciliyet).Include(I=>I.Raporlar).Include(I=>I.AppUser).Where(I => !I.Durum).OrderByDescending(I => I.OlusturulmaTarih).ToList();
             }
         }
     }

@@ -33,10 +33,12 @@ namespace YSKProje.ToDo.Web
             services.AddScoped<IGorevService, GorevManager>();
             services.AddScoped<IAciliyetService, AciliyetManager>();
             services.AddScoped<IRaporService, RaporManager>();
+            services.AddScoped<IAppUserService, AppUserManager>();
 
             services.AddScoped<IGorevDal, EfGorevRepository>();
             services.AddScoped<IAciliyetDal, EfAciliyetRepository>();
             services.AddScoped<IRaporDal, EfRaporRepository>();
+            services.AddScoped<IAppUserDal, EfAppUserRepository>();
 
             services.AddDbContext<ToDoContext>();
             services.AddIdentity<AppUser, AppRole>(opt =>
@@ -76,9 +78,11 @@ namespace YSKProje.ToDo.Web
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
             IdentityInitializer.SeedData(userManager, roleManager).Wait();//as olaný senk yerde yaparken
 
-            app.UseAuthorization();
+            
 
             app.UseEndpoints(endpoints =>
             {

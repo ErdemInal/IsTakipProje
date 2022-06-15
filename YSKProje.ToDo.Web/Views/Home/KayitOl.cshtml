@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_StandartLayout.cshtml";
 }
 
-<form asp-action="KayitOl" method="post" class="w-75 mt-3 mx-auto p-3 shadow">
+<form asp-action="KayitOl" asp-controller="Home" method="post" class="w-75 mt-3 mx-auto p-3 shadow">
     <h4 class="text-center">Kayıt Ol</h4>
     <div class="form-group">
         <label asp-for="Name"></label>
@@ -46,7 +46,7 @@
 
     </div>
 
-    <a href="" class="btn btn-warning btn-sm">Vazgeç</a>
+    <a asp-action="Index" class="btn btn-warning btn-sm">Vazgeç</a>
     <button type="submit" class="btn btn-info btn-sm">Kayıt Ol</button>
 
 

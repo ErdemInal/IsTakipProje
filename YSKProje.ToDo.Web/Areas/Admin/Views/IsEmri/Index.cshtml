@@ -1,0 +1,62 @@
+﻿@model List<GorevListViewAllModel>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@if (Model.Count != 0)
+{
+    <table class="table table-hover table-sm mt-2">
+        <tr>
+            <th>Ad</th>
+            <th>Açıklama</th>
+            <th>Oluşturulma Tarihi</th>
+            <th>Çalışan Personel</th>
+            <th>Aciliyet</th>
+            <th>Rapor Sayısı</th>
+            <th>İşlem</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Ad</td>
+                <td>@item.Aciklama</td>
+                <td>@item.OlusturulmaTarih.ToString("D")</td>
+
+                <td>
+                    @{
+                        if (item.AppUser == null)
+                        {
+                            <span class="badge-danger">Çalışan Personel Yok</span>
+                        }
+                        else
+                        {
+                            <span class="badge-success">@item.AppUser.Name Çalışıyor</span>
+                        }
+                    }
+                </td>
+                <td>@item.Aciliyet.Tanim</td>
+                <td>@item.Raporlar.Count</td>
+
+                <td>
+                    @{
+                        if (item.AppUser == null)
+                        {
+                            <a asp-action="AtaPersonel" asp-route-id="@item.Id" class="btn btn-success btn-sm">Personel Ata</a>
+                        }
+                        else
+                        {
+                            <a asp-action="Detaylandir" asp-route-id="@item.Id" class="btn btn-info btn-sm">Detay Göster</a>
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <div class="my-2 text-center lead">
+        Herhangi bir görev bulunmamaktadır.
+    </div>
+}
