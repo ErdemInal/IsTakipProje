@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using YSKProje.ToDo.DataAccess.Concrete.EntityFreamworkCore.Contexts;
 using YSKProje.ToDo.DataAccess.Interfaces;
 using YSKProje.ToDo.Entities.Concrete;
 
 namespace YSKProje.ToDo.DataAccess.Concrete.EntityFreamworkCore.Repositories
 {
-    public class EfGorevRepository : EfGenericRepository<Gorev>,IGorevDal
+    public class EfGorevRepository : EfGenericRepository<Gorev>, IGorevDal
     {
         //public List<Calisma> GetirHepsi()
         //{
@@ -53,5 +54,12 @@ namespace YSKProje.ToDo.DataAccess.Concrete.EntityFreamworkCore.Repositories
         //        //context.SaveChanges();
         //    }
         //}
+        public List<Gorev> GetirAciliyetIleTamamlanmayan()
+        {
+            using (var context = new ToDoContext())
+            {
+                return context.Gorevler.Include(I => I.Aciliyet).Where(I => !I.Durum).OrderByDescending(I=>I.OlusturulmaTarih).ToList();
+            }
+        }
     }
 }

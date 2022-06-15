@@ -6,14 +6,14 @@
 
 @if (Model.Count != 0)
 {
-    <a asp-action="EkleGorev" class="btn btn-info btn-sm">Yeni Görev Oluştur</a>
+    <a asp-action="EkleGorev" class="btn btn-info btn-sm my-2">Yeni Görev Oluştur</a>
 
-    <table>
+    <table class="table table-sm table-hover">
         <tr>
             <th>Ad</th>
             <th>Aciklama</th>
-            <th>Durum</th>
-            <th>Aciliyet Id</th>
+            <th>Oluşturulma Tarihi</th>
+            <th>Aciliyet</th>
             <th>İşlem</th>
         </tr>
         @foreach (var item in Model)
@@ -21,11 +21,11 @@
             <tr>
                 <td>@item.Ad</td>
                 <td>@item.Aciklama</td>
-                <td>@item.Durum</td>
-                <td>@item.AciliyetId</td>
+                <td>@item.OlusturulmaTarih.ToString("D")</td>
+                <td>@item.Aciliyet.Tanim</td>
                 <td>
-                    <a href="">Düzenle</a>
-                    <a href="">Sil</a>
+                    <a asp-action="GuncelleGorev" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Düzenle</a>
+                    <a class="btn btn-danger btn-sm" href="" data-toggle="modal" data-target="#silmeEkrani" data-erdem="@item.Id">Sil</a>
                 </td>
             </tr>
         }
@@ -39,4 +39,62 @@ else
         </p>
         <a asp-action="EkleGorev" class="bt btn-info btn-sm">Bir Görev Oluştur</a>
     </div>
+}
+
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="silmeEkrani" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Uyarı</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Silmek İstediğinizden Emin Misiniz?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hayır Vazgeç</button>
+                <button id="btnSil" type="button" class="btn btn-primary">Evet Sil</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Javascript
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            debugger;
+            $("#silmeEkrani").on("show.bs.modal",
+                function (event) {
+                    debugger;
+                    let tetikleyenElement = $(event.relatedTarget);
+                    let id = tetikleyenElement.data("erdem");
+
+                    $("#btnSil").click(function() {
+                        $.ajax({
+                            type: "Get",
+                            url: "./Gorev/SilGorev",
+                            data: { id: id },
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8;",
+                            success: function () {
+                                window.location.reload();
+                                //alert("İşlem Tamam");
+                            },
+                            error: function(error) {
+                                alert(error.statusText);
+                            }
+                        });
+                    });
+                });
+        });
+    </script>
 }

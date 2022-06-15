@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using YSKProje.ToDo.Business.Concrete;
 using YSKProje.ToDo.Business.Interfaces;
 using YSKProje.ToDo.DataAccess.Concrete.EntityFreamworkCore.Contexts;
@@ -37,12 +39,30 @@ namespace YSKProje.ToDo.Web
             services.AddScoped<IRaporDal, EfRaporRepository>();
 
             services.AddDbContext<ToDoContext>();
-            services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<ToDoContext>();
+            services.AddIdentity<AppUser, AppRole>(opt =>
+            {
+                opt.Password.RequireDigit = false;
+                opt.Password.RequireUppercase = false;
+                opt.Password.RequiredLength = 1;
+                opt.Password.RequireLowercase = false;
+                opt.Password.RequireNonAlphanumeric = false;
+            }).AddEntityFrameworkStores<ToDoContext>();
+
+            services.ConfigureApplicationCookie(opt =>
+            {
+                opt.Cookie.Name = "IsTakipCookie";
+                opt.Cookie.SameSite = SameSiteMode.Strict;
+                opt.Cookie.HttpOnly = true;
+                opt.ExpireTimeSpan = TimeSpan.FromDays(20);
+                opt.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;//http ise http https ise https gibi davran
+                opt.LoginPath = "/Home/Index";
+            });
+
             services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -56,6 +76,7 @@ namespace YSKProje.ToDo.Web
             app.UseStaticFiles();
 
             app.UseRouting();
+            IdentityInitializer.SeedData(userManager, roleManager).Wait();//as olaný senk yerde yaparken
 
             app.UseAuthorization();
 
@@ -67,8 +88,8 @@ namespace YSKProje.ToDo.Web
                 );
 
                 endpoints.MapControllerRoute(
-                    name:"default",
-                    pattern:"{controller=Home}/{action=Index}/{id?}"
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}"
                 );
             });
         }
