@@ -1,4 +1,14 @@
-﻿<!DOCTYPE html>
+﻿@{
+    string active = string.Empty;
+    if (TempData["Active"] != null)
+    {
+        active = TempData["Active"].ToString();
+    }
+    //yada
+    //string active2 = TempData["Active"]?.ToString();
+}
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -27,9 +37,9 @@
         <div class="border-right" id="sidebar-wrapper">
             <div class="sidebar-heading">Admin Layout </div>
             <div class="list-group list-group-flush">
-                <a href="#" class="list-group-item list-group-item-action active">Görev İşlemleri</a>
-                <a asp-action="Index" asp-controller="Aciliyet" class="list-group-item list-group-item-action ">Aciliyet İşlemleri</a>
-                <a href="#" class="list-group-item list-group-item-action ">Overview</a>
+                <a asp-action="Index" asp-controller="Gorev" class="list-group-item list-group-item-action @(active == "gorev"?"active":"")">Görev İşlemleri</a>
+                <a asp-action="Index" asp-controller="Aciliyet" class="list-group-item list-group-item-action @(active=="aciliyet"?"active":"") ">Aciliyet İşlemleri</a>
+                <a href="#" class="list-group-item list-group-item-action  ">Overview</a>
                 <a href="#" class="list-group-item list-group-item-action ">Events</a>
                 <a href="#" class="list-group-item list-group-item-action ">Profile</a>
                 <a href="#" class="list-group-item list-group-item-action ">Status</a>
@@ -83,8 +93,9 @@
     <script src="~/lib/jquery/jquery.min.js"></script>
 
     <script src="~/lib/twitter-bootstrap/js/bootstrap.js"></script>
-
-    <!-- Menu Toggle Script -->
+    
+@RenderSection("Javascript",false)
+<!-- Menu Toggle Script -->
     <script>$("#menu-toggle").click(function (e) {
             e.preventDefault();
             $("#wrapper").toggleClass("toggled");
