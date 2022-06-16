@@ -53,6 +53,8 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
             ViewBag.AktifSayfa = sayfa;
             //ViewBag.ToplamSayfa = (int)Math.Ceiling((double)_appUserService.GetirAdminOlmayanlar().Count / 3);
 
+            ViewBag.Aranan = s;
+
             int toplamSayfa;
 
             var gorev = _gorevService.GetirAciliyetileId(id);
