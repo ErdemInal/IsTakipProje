@@ -62,11 +62,28 @@ namespace YSKProje.ToDo.DataAccess.Concrete.EntityFreamworkCore.Repositories
         //        //context.SaveChanges();
         //    }
         //}
+
+        public Gorev GetirRaporlarileId(int id)
+        {
+            using (var context = new ToDoContext())
+            {
+                return context.Gorevler.Include(I => I.Raporlar).Include(I=>I.AppUser).Where(I => I.Id == id).FirstOrDefault();
+            }
+        }
+
         public List<Gorev> GetirAciliyetIleTamamlanmayan()
         {
             using (var context = new ToDoContext())
             {
                 return context.Gorevler.Include(I => I.Aciliyet).Where(I => !I.Durum).OrderByDescending(I=>I.OlusturulmaTarih).ToList();
+            }
+        }
+
+        public List<Gorev> GetirileAppUserId(int appUserId)
+        {
+            using (var context = new ToDoContext())
+            {
+                return context.Gorevler.Where(I => I.AppUserId == appUserId).ToList();
             }
         }
 

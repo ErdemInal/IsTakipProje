@@ -61,10 +61,12 @@
                     <div class="col-md-8">
                         <div class="card-body">
                             <h5 class="card-title">@item.Name @item.Surname</h5>
-                            <p class="card-text">Bir Görev Almış Mı?</p>
+                            <p class="card-text">
+                                <getirGorevAppUserId app-user-id="@item.Id"></getirGorevAppUserId>
+                            </p>
                             <p class="card-text">
                                 <small class="text-muted">@item.Email</small>
-                                <a href="" class="btn btn-primary float-right btn-sm">Görevlendir</a>
+                                <a asp-action="GorevlendirPersonel" asp-route-PersonelId="@item.Id" asp-route-GorevId="@Model.Id" class="btn btn-primary float-right btn-sm">Görevlendir</a>
                             </p>
                         </div>
                     </div>

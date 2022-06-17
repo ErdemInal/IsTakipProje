@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using YSKProje.ToDo.Business.Interfaces;
 using YSKProje.ToDo.Entities.Concrete;
 using YSKProje.ToDo.Web.Areas.Admin.Models;
@@ -16,11 +17,13 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
     {
         private readonly IAppUserService _appUserService;
         private readonly IGorevService _gorevService;
+        private readonly UserManager<AppUser> _userManager;
 
-        public IsEmriController(IAppUserService appUserService, IGorevService gorevService)
+        public IsEmriController(IAppUserService appUserService, IGorevService gorevService, UserManager<AppUser> userManager)
         {
             _appUserService = appUserService;
             _gorevService = gorevService;
+            _userManager = userManager;
 
         }
         public IActionResult Index()
@@ -44,6 +47,19 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
             }
 
             return View(models);
+        }
+
+        public IActionResult Detaylandir(int id)
+        {
+            var gorev = _gorevService.GetirRaporlarileId(id);
+            GorevListViewAllModel model = new GorevListViewAllModel();
+            model.Id = gorev.Id;
+            model.Raporlar = gorev.Raporlar;
+            model.Ad = gorev.Ad;
+            model.Aciklama = gorev.Aciklama;
+            model.AppUser = gorev.AppUser;
+
+            return View(model);
         }
 
         public IActionResult AtaPersonel(int id,string s, int sayfa=1)
@@ -84,6 +100,43 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
             gorevModel.OlusturulmaTarih = gorev.OlusturulmaTarih;
 
             return View(gorevModel);
+        }
+
+        [HttpPost]
+        public IActionResult AtaPersonel(PersonelGorevlendirViewModel model)
+        {
+            var guncellenecekGorev = _gorevService.GetirIdile(model.GorevId);
+            guncellenecekGorev.AppUserId = model.PersonelId;
+            _gorevService.Guncelle(guncellenecekGorev);
+            return RedirectToAction("Index");
+        }
+
+
+        public IActionResult GorevlendirPersonel(PersonelGorevlendirViewModel model)
+        {
+            TempData["Active"] = "isemri";
+            var user = _userManager.Users.FirstOrDefault(I => I.Id == model.PersonelId);
+            var gorev = _gorevService.GetirAciliyetileId(model.GorevId);
+
+            AppUserListViewModel userModel = new AppUserListViewModel();
+            userModel.Id = user.Id;
+            userModel.Name = user.Name;
+            userModel.Picture = user.Picture;
+            userModel.Surname = user.Surname;
+            userModel.Email = user.Email;
+
+            GorevListViewModel gorevModel = new GorevListViewModel();
+            gorevModel.Id = gorev.Id;
+            gorevModel.Aciklama = gorev.Aciklama;
+            gorevModel.Aciliyet = gorev.Aciliyet;
+            gorevModel.Ad = gorev.Ad;
+
+            PersonelGorevlendirListViewModel personelGorevlendirModel = new PersonelGorevlendirListViewModel();
+            personelGorevlendirModel.AppUser = userModel;
+            personelGorevlendirModel.Gorev = gorevModel;
+            
+
+            return View(personelGorevlendirModel);
         }
     }
 }
