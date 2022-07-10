@@ -1,12 +1,4 @@
-﻿@{
-    string active = string.Empty;
-    if (TempData["Active"] != null)
-    {
-        active = TempData["Active"].ToString();
-    }
-    //yada
-    //string active2 = TempData["Active"]?.ToString();
-}
+﻿
 
 <!DOCTYPE html>
 <html lang="tr">
@@ -37,19 +29,7 @@
     <div class="d-flex" id="wrapper">
 
         <!-- Sidebar -->
-        <div class="border-right" id="sidebar-wrapper">
-            <div class="sidebar-heading">Admin Layout </div>
-            <div class="list-group list-group-flush">
-                <a asp-action="Index" asp-controller="Gorev" class="list-group-item list-group-item-action @(active == "gorev"?"active":"")"><i class="fa-solid fa-list-check mr-2"></i> Görev İşlemleri</a>
-                <a asp-action="Index" asp-controller="Aciliyet" class="list-group-item list-group-item-action @(active=="aciliyet"?"active":"") "><i class="fa-solid fa-exclamation mr-2"></i> Aciliyet İşlemleri</a>
-                <a asp-action="Index" asp-controller="IsEmri" class="list-group-item list-group-item-action @(active=="isemri"?"active":"") "><i class="fa-solid fa-file-lines mr-2"></i> İş Emirleri</a>
-                <a href="#" class="list-group-item list-group-item-action "><i class="fa-solid fa-chart-pie mr-2"></i> Grafikler</a>
-                <a href="#" class="list-group-item list-group-item-action "><i class="fa-solid fa-chart-line mr-2"></i> İstatistikler</a>
-                <a href="#" class="list-group-item list-group-item-action "><i class="fa-solid fa-bell mr-2"></i> Bildirimler</a>
-                <a asp-action="Index" asp-controller="Profil" class="list-group-item list-group-item-action @(active=="profil"?"active":"")"><i class="fa-solid fa-user mr-2"></i> Profilim</a>
-                <a href="#" class="list-group-item list-group-item-action "><i class="fa-solid fa-arrow-right-from-bracket mr-2"></i> Çıkış Yap</a>
-            </div>
-        </div>
+        @await Component.InvokeAsync("Wrapper");
         <!-- /#sidebar-wrapper -->
         <!-- Page Content -->
         <div id="page-content-wrapper">
