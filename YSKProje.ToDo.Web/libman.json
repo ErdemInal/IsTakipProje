@@ -24,7 +24,7 @@
     {
       "library": "font-awesome@6.1.1",
       "destination": "wwwroot/lib/fontAwesome",
-      "files": ["css/all.min.css","js/all.min.js"]
+      "files": ["css/all.min.css","js/all.min.js","webfonts/fa-solid-900.ttf","webfonts/fa-solid-900.woff2"]
     }
   ]
 }
