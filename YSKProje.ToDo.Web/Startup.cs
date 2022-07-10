@@ -34,6 +34,7 @@ namespace YSKProje.ToDo.Web
             services.AddScoped<IAciliyetService, AciliyetManager>();
             services.AddScoped<IRaporService, RaporManager>();
             services.AddScoped<IAppUserService, AppUserManager>();
+            services.AddScoped<IDosyaService, DosyaManager>();
 
             services.AddScoped<IGorevDal, EfGorevRepository>();
             services.AddScoped<IAciliyetDal, EfAciliyetRepository>();

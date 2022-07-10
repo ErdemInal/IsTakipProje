@@ -18,12 +18,14 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
         private readonly IAppUserService _appUserService;
         private readonly IGorevService _gorevService;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IDosyaService _dosyaService;
 
-        public IsEmriController(IAppUserService appUserService, IGorevService gorevService, UserManager<AppUser> userManager)
+        public IsEmriController(IAppUserService appUserService, IGorevService gorevService, UserManager<AppUser> userManager,IDosyaService dosyaService)
         {
             _appUserService = appUserService;
             _gorevService = gorevService;
             _userManager = userManager;
+            _dosyaService = dosyaService;
 
         }
         public IActionResult Index()
@@ -62,6 +64,17 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
             model.AppUser = gorev.AppUser;
 
             return View(model);
+        }
+
+        public IActionResult GetirExcel(int id)
+        {
+            return File(_dosyaService.AktarExcel(_gorevService.GetirRaporlarileId(id).Raporlar),"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",Guid.NewGuid()+".xlsx");
+        }
+
+        public IActionResult GetirPdf(int id)
+        {
+            var path = _dosyaService.AktarPdf(_gorevService.GetirRaporlarileId(id).Raporlar);
+            return File(path,"application/pdf",Guid.NewGuid()+".pdf");
         }
 
         public IActionResult AtaPersonel(int id,string s, int sayfa=1)
