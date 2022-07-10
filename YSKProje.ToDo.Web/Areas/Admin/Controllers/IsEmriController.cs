@@ -51,6 +51,8 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
 
         public IActionResult Detaylandir(int id)
         {
+            TempData["Active"] = "isemri";
+
             var gorev = _gorevService.GetirRaporlarileId(id);
             GorevListViewAllModel model = new GorevListViewAllModel();
             model.Id = gorev.Id;

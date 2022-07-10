@@ -25,7 +25,7 @@
         </form>
     </div>
     <div class="col-md-4">
-        <div class="card border border-primary shadow">
+        <div class="card shadow">
 
             <div class="card-header">
                 <h4 class="text-center lead pt-2">Görev Bilgileri</h4>
@@ -52,7 +52,7 @@
 
         @foreach (var item in (List<AppUserListViewModel>)ViewBag.Personeller)
         {
-            <div class="card mb-3 border border-primary p-2">
+            <div class="card mb-3 p-2">
                 <div class="row no-gutters">
                     <div class="col-md-2">
                         <img src="~/img/@item.Picture" class="card-img img-thumbnail shadow" alt="@item.Name">
