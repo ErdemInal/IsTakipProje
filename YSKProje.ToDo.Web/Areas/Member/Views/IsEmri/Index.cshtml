@@ -1,0 +1,55 @@
+﻿@model List<GorevListViewAllModel>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Member/Views/Shared/_MemberLayout.cshtml";
+}
+
+
+@foreach (var gorev in Model)
+{
+    <div class="card my-1">
+        <div class="card-header">
+            @gorev.Ad
+        </div>
+        <div class="card-body">
+            <h5 class="card-title"><span class="text-danger">Aciliyet Durumu : </span>@gorev.Aciliyet.Tanim</h5>
+            <p class="card-text">@gorev.Aciklama</p>
+
+
+            <p class="text-right">
+                @if (gorev.Raporlar.Count > 0)
+                {
+                    <a class="btn btn-light btn-sm" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        Raporlara Git<i class="fa-solid fa-arrow-down-short-wide ml-2"></i>
+                        <span class="badge badge-dark">@gorev.Raporlar.Count</span>
+                    </a>
+                }
+                else
+                {
+                    <span class="lead font-weight-bold font-italic p-2 d-block text-center mb-1">
+                        Hiç Rapor Yazmamışsınız Lütfen İlerlemenizden Bahsedin.
+                    </span>
+                    <a href="" class="btn btn-light btn-sm">Rapor Yaz<i class="fa-solid fa-pen-field ml-2"></i></a>
+                }
+
+
+
+                <a href="#" class="btn btn-dark btn-sm">
+                    Tamamlandı<i class="fa-solid fa-thumbs-up ml-2"></i>
+                </a>
+            </p>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+                </div>
+            </div>
+
+
+
+            
+        </div>
+    </div>
+}
+
+
+

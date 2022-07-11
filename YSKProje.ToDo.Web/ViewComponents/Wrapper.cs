@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using YSKProje.ToDo.Entities.Concrete;
 using YSKProje.ToDo.Web.Areas.Admin.Models;
 
-namespace YSKProje.ToDo.Web.Areas.Admin.ViewComponents
+namespace YSKProje.ToDo.Web.ViewComponents
 {
     public class Wrapper : ViewComponent
     {
@@ -26,7 +26,13 @@ namespace YSKProje.ToDo.Web.Areas.Admin.ViewComponents
             model.Email = user.Email;
             model.Picture = user.Picture;
 
-            return View(model);
+            var roles = _userManager.GetRolesAsync(user).Result;
+            if (roles.Contains("Admin"))
+            {
+                return View(model);
+            }
+
+            return View("Member",model);
         }
     }
 }

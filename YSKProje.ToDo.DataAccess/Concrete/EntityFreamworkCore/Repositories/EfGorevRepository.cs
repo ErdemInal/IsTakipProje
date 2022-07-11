@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using YSKProje.ToDo.DataAccess.Concrete.EntityFreamworkCore.Contexts;
 using YSKProje.ToDo.DataAccess.Interfaces;
@@ -92,6 +93,14 @@ namespace YSKProje.ToDo.DataAccess.Concrete.EntityFreamworkCore.Repositories
             using (var context = new ToDoContext())
             {
                 return context.Gorevler.Include(I => I.Aciliyet).Include(I=>I.Raporlar).Include(I=>I.AppUser).Where(I => !I.Durum).OrderByDescending(I => I.OlusturulmaTarih).ToList();
+            }
+        }
+
+        public List<Gorev> GetirTumTablolarla(Expression<Func<Gorev, bool>> filter)
+        {
+            using (var context = new ToDoContext())
+            {
+                return context.Gorevler.Include(I => I.Aciliyet).Include(I => I.Raporlar).Include(I => I.AppUser).Where(filter).OrderByDescending(I => I.OlusturulmaTarih).ToList();
             }
         }
     }

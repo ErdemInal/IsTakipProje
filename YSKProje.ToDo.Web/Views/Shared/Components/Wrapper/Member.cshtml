@@ -1,0 +1,26 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model AppUserListViewModel
+@{ string active = string.Empty;
+    if (TempData["Active"] != null)
+    {
+        active = TempData["Active"].ToString();
+    }
+    //yada
+    //string active2 = TempData["Active"]?.ToString(); }
+}
+<div class="border-right" id="sidebar-wrapper">
+    <div class="sidebar-heading">
+        <img src="~/img/@Model.Picture" alt="@Model.Name" class="img-thumbnail" style="height:10rem!important" />
+        <h5>@Model.Name @Model.Surname</h5>
+    </div>
+    <div class="list-group list-group-flush">
+        
+        <a asp-action="Index" asp-controller="IsEmri" asp-route-id="@Model.Id" class="list-group-item list-group-item-action @(active=="isemri"?"active":"")"><i class="fa-solid fa-circle-arrow-down mr-2"></i> Gelen İş Emirleri</a>
+        <a href="#" class="list-group-item list-group-item-action "><i class="fa-solid fa-circle-arrow-up mr-2"></i> Tamamladığım İşler</a>
+        <a href="#" class="list-group-item list-group-item-action "><i class="fa-solid fa-bell mr-2"></i> Bildirimler</a>
+        <a asp-action="Index" asp-controller="Profil" class="list-group-item list-group-item-action @(active=="profil"?"active":"")"><i class="fa-solid fa-user mr-2"></i> Profilim</a>
+        <a asp-area="" asp-action="CikisYap" asp-controller="Home" class="list-group-item list-group-item-action "><i class="fa-solid fa-arrow-right-from-bracket mr-2"></i> Çıkış Yap</a>
+    </div>
+</div>
