@@ -11,6 +11,7 @@ namespace YSKProje.ToDo.Business.Interfaces
         List<Gorev> GetirAciliyetIleTamamlanmayan();
         List<Gorev> GetirTumTablolarla();
         List<Gorev> GetirTumTablolarla(Expression<Func<Gorev, bool>> filter);
+        List<Gorev> GetirTumTablolarlaTamamlanmayan(out int toplamSayfa, int userId, int aktifSayfa =1);
 
         Gorev GetirAciliyetileId(int id);
         List<Gorev> GetirileAppUserId(int appUserId);

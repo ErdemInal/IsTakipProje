@@ -103,5 +103,16 @@ namespace YSKProje.ToDo.DataAccess.Concrete.EntityFreamworkCore.Repositories
                 return context.Gorevler.Include(I => I.Aciliyet).Include(I => I.Raporlar).Include(I => I.AppUser).Where(filter).OrderByDescending(I => I.OlusturulmaTarih).ToList();
             }
         }
+
+        public List<Gorev> GetirTumTablolarlaTamamlanmayan(out int toplamSayfa, int userId,int aktifSayfa=1)
+        {
+            using (var context = new ToDoContext())
+            {
+                var returnValue = context.Gorevler.Include(I => I.Aciliyet).Include(I => I.Raporlar).Include(I => I.AppUser).Where(I=>I.AppUserId == userId && I.Durum).OrderByDescending(I => I.OlusturulmaTarih);
+
+                toplamSayfa = (int)Math.Ceiling((double)returnValue.Count() / 3);
+                return returnValue.Skip((aktifSayfa - 1) * 3).Take(3).ToList();
+            }
+        }
     }
 }
