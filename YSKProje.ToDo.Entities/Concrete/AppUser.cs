@@ -11,6 +11,7 @@ namespace YSKProje.ToDo.Entities.Concrete
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Picture { get; set; } = "default.png";
+        public List<Bildirim> Bildirimler { get; set; }//1 user birden fazla bildirim alabilir
         public List<Gorev> Gorevler { get; set; } //1 user birden fazla görev alabilir
     }
 }
