@@ -1,0 +1,43 @@
+﻿@model RaporAddViewModel
+@{
+    ViewData["Title"] = "EkleRapor";
+    Layout = "~/Areas/Member/Views/Shared/_MemberLayout.cshtml";
+}
+
+
+
+
+<form asp-action="EkleRapor" method="post" class="p-3">
+    <div class="card text-white bg-primary mb-3">
+        <div class="card-header">İşin Adı : @Model.Gorev.Ad</div>
+        <div class="card-body">
+            <h4 class="card-title">İşin Aciliyeti : @Model.Gorev.Aciliyet.Tanim</h4>
+            <p class="card-text">@Model.Gorev.Aciklama</p>
+        </div>
+    </div>
+
+        <input type="hidden" asp-for="@Model.GorevId" />
+        <div class="form-group">
+            <label asp-for="@Model.Tanim"></label>
+            <span asp-validation-for="@Model.Tanim" class="text-danger"></span>
+            <input asp-for="@Model.Tanim" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.Detay"></label>
+            <span asp-validation-for="@Model.Detay" class="text-danger"></span>
+            <textarea asp-for="@Model.Detay" class="form-control"></textarea>
+        </div>
+    
+
+    <div class="form-group">
+        <a asp-action="Index" class="btn btn-warning btn-sm"><i class="fa-solid fa-circle-arrow-left mr-2"></i>Geri Dön</a>
+        <button type="submit" class="btn btn-info btn-sm"><i class="fa-solid fa-circle-check mr-2"></i>Kaydet</button>
+    </div>
+</form>
+
+@section JavaScript{
+    <script src="~/lib/jqueryValidate/jquery.validate.min.js"></script>
+    <script src="~/lib/jqueryUnob/jquery.validate.unobtrusive.min.js"></script>
+}
+

@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using YSKProje.ToDo.Business.Interfaces;
+using YSKProje.ToDo.Entities.Concrete;
 using YSKProje.ToDo.Web.Areas.Admin.Models;
 
 namespace YSKProje.ToDo.Web.Areas.Member.Controllers
@@ -12,17 +14,24 @@ namespace YSKProje.ToDo.Web.Areas.Member.Controllers
     public class IsEmriController : Controller
     {
         private readonly IGorevService _gorevService;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly IRaporService _raporService;
 
-        public IsEmriController(IGorevService gorevService)
+        public IsEmriController(IGorevService gorevService, UserManager<AppUser> userManager, IRaporService raporService)
         {
             _gorevService = gorevService;
+            _userManager = userManager;
+            _raporService = raporService;
         }
-        public IActionResult Index(int id)
+        public async Task<IActionResult> Index()
         {
             TempData["Active"] = "isemri";
-            var gorevler = _gorevService.GetirTumTablolarla(I => I.AppUserId == id && !I.Durum);
 
-            List<GorevListViewAllModel> models = new List <GorevListViewAllModel>();
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            var gorevler = _gorevService.GetirTumTablolarla(I => I.AppUserId == user.Id && !I.Durum);
+
+            List<GorevListViewAllModel> models = new List<GorevListViewAllModel>();
 
             foreach (var item in gorevler)
             {
@@ -37,9 +46,69 @@ namespace YSKProje.ToDo.Web.Areas.Member.Controllers
                 models.Add(model);
 
             }
-            
+
 
             return View(models);
         }
+
+        public IActionResult EkleRapor(int id)
+        {
+            TempData["Active"] = "isemri";
+
+            var gorev = _gorevService.GetirAciliyetileId(id);
+            RaporAddViewModel model = new RaporAddViewModel();
+            model.GorevId = id;
+            model.Gorev = gorev;
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult EkleRapor(RaporAddViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                _raporService.Kaydet(new Rapor()
+                {
+                    GorevId = model.GorevId,
+                    Detay = model.Detay,
+                    Tanim = model.Tanim
+                });
+                return RedirectToAction("Index");
+            }
+
+            return View(model);
+        }
+
+        public IActionResult GuncelleRapor(int id)
+        {
+            TempData["Active"] = "isemri";
+
+            var rapor = _raporService.GetirGorevileId(id);
+            RaporUpdateViewModel model = new RaporUpdateViewModel();
+            model.Id = rapor.Id;
+            model.Tanim = rapor.Tanim;
+            model.Detay = rapor.Detay;
+            model.Gorev = rapor.Gorev;
+            model.GorevId = rapor.GorevId;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult GuncelleRapor(RaporUpdateViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var guncellenecekRapor = _raporService.GetirIdile(model.Id);
+                guncellenecekRapor.GorevId = model.GorevId;
+                guncellenecekRapor.Tanim = model.Tanim;
+                guncellenecekRapor.Detay = model.Detay;
+
+                _raporService.Guncelle(guncellenecekRapor);
+                return RedirectToAction("Index");
+            }
+            return View(model);
+        }
+
     }
 }
