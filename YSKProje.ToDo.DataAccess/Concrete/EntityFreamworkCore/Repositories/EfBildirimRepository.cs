@@ -10,6 +10,14 @@ namespace YSKProje.ToDo.DataAccess.Concrete.EntityFreamworkCore.Repositories
 {
     public class EfBildirimRepository : EfGenericRepository<Bildirim>, IBildirimDal
     {
+        public int GetirOkunmayanBildirimSayisiileAppUserId(int AppUserId)
+        {
+            using (var context = new ToDoContext())
+            {
+                return context.Bildirimler.Count(I => I.AppUserId == AppUserId && !I.Durum);
+            }
+        }
+
         public List<Bildirim> GetirOkunmayanlar(int AppUserId)
         {
             using (var context = new ToDoContext())

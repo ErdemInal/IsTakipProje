@@ -114,5 +114,21 @@ namespace YSKProje.ToDo.DataAccess.Concrete.EntityFreamworkCore.Repositories
                 return returnValue.Skip((aktifSayfa - 1) * 3).Take(3).ToList();
             }
         }
+
+        public int GetirGorevSayisiTamamlananileAppUserId(int id)
+        {
+            using (var context = new ToDoContext())
+            {
+                return context.Gorevler.Count(I => I.AppUserId == id && I.Durum);
+            }
+        }
+
+        public int GetirGörevSayisiTamamlanmasiGerekenAppUserId(int AppUserId)
+        {
+            using (var context = new ToDoContext())
+            {
+                return context.Gorevler.Count(I => I.AppUserId == AppUserId && !I.Durum);
+            }
+        }
     }
 }
