@@ -12,7 +12,7 @@
 }
 <div class="border-right" id="sidebar-wrapper">
     <div class="sidebar-heading">
-        <img src="~/img/@Model.Picture" alt="@Model.Name"class="img-thumbnail" style="height:10rem!important" />
+        <img src="~/img/@Model.Picture" alt="@Model.Name" class="img-thumbnail" style="height:10rem!important" />
         <h5>@Model.Name @Model.Surname</h5>
     </div>
     <div class="list-group list-group-flush">
@@ -21,7 +21,16 @@
         <a asp-action="Index" asp-controller="IsEmri" class="list-group-item list-group-item-action @(active=="isemri"?"active":"") "><i class="fa-solid fa-file-lines mr-2"></i> İş Emirleri</a>
         <a href="#" class="list-group-item list-group-item-action "><i class="fa-solid fa-chart-pie mr-2"></i> Grafikler</a>
         <a href="#" class="list-group-item list-group-item-action "><i class="fa-solid fa-chart-line mr-2"></i> İstatistikler</a>
-        <a href="#" class="list-group-item list-group-item-action "><i class="fa-solid fa-bell mr-2"></i> Bildirimler</a>
+        <a asp-action="Index" asp-controller="Bildirim" class="list-group-item list-group-item-action position-relative @(active=="bildirim"?"active":"")">
+            <i class="fa-solid fa-bell mr-2"></i>
+            @if (ViewBag.BildirimSayisi > 0)
+            {
+                <sub class="badge badge-info badge-pill position-absolute" style="bottom:1.5rem!important; left:1.7rem!important; font-size:0.6em!important;">
+                    @ViewBag.BildirimSayisi
+                </sub>
+            }
+             Bildirimler
+        </a>
         <a asp-action="Index" asp-controller="Profil" class="list-group-item list-group-item-action @(active=="profil"?"active":"")"><i class="fa-solid fa-user mr-2"></i> Profilim</a>
         <a asp-area="" asp-action="CikisYap" asp-controller="Home" class="list-group-item list-group-item-action "><i class="fa-solid fa-arrow-right-from-bracket mr-2"></i> Çıkış Yap</a>
     </div>

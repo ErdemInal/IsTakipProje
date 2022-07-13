@@ -35,11 +35,13 @@ namespace YSKProje.ToDo.Web
             services.AddScoped<IRaporService, RaporManager>();
             services.AddScoped<IAppUserService, AppUserManager>();
             services.AddScoped<IDosyaService, DosyaManager>();
+            services.AddScoped<IBildirimService, BildirimManager>();
 
             services.AddScoped<IGorevDal, EfGorevRepository>();
             services.AddScoped<IAciliyetDal, EfAciliyetRepository>();
             services.AddScoped<IRaporDal, EfRaporRepository>();
             services.AddScoped<IAppUserDal, EfAppUserRepository>();
+            services.AddScoped<IBildirimDal, EfBildirimRepository>();
 
             services.AddDbContext<ToDoContext>();
             services.AddIdentity<AppUser, AppRole>(opt =>
