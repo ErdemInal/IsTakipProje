@@ -3,4 +3,82 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="row mt-3">
+    <div class="col-md-6">
+
+        <div class="card text-white bg-primary text-center mb-3">
+            <div class="card-header">Header</div>
+            <div class="card-body">
+                <h4 class="card-title">Atanmayı Bekleyen Görev</h4>
+                @if (ViewBag.AtanmayiBekleyenGorev > 0)
+                {
+                    <p class="card-text">@ViewBag.AtanmayiBekleyenGorev</p>
+                    <p class=""><a asp-action="Index" asp-controller="IsEmri" class="btn btn-light btn-sm"><i class="fa-solid fa-circle-arrow-right mr-2"></i>İncele</a></p>
+
+                }
+                else
+                {
+                    <p class="card-text">Bütün personeller çalışmakta ya da herhangi bir görev yok.</p>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card text-white bg-primary text-center mb-3">
+            <div class="card-header">Header</div>
+            <div class="card-body">
+                <h4 class="card-title">Tamamlanan Görev Sayısı</h4>
+                @if (ViewBag.TamamlanmisGorev > 0)
+                {
+                    <p class="card-text">@ViewBag.TamamlanmisGorev</p>
+                }
+                else
+                {
+                    <p class="card-text">Herhangi Bir Görev Tamamlanmamış.</p>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-6">
+        <div class="card text-white bg-primary text-center mb-3">
+            <div class="card-header">Header</div>
+            <div class="card-body">
+                <h4 class="card-title">Okunmamış Bildirim Sayısı</h4>
+                @if (ViewBag.OkunmamisBildirim > 0)
+                {
+                    <p class="card-text">@ViewBag.OkunmamisBildirim</p>
+                    <p class=""><a asp-action="Index" asp-controller="Bildirim" class="btn btn-light btn-sm"><i class="fa-solid fa-circle-arrow-right mr-2"></i>İncele</a></p>
+
+                }
+                else
+                {
+                    <p class="card-text">Herhangi Bir Bildiriminiz Yok.</p>
+                }
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-6">
+        <div class="card text-white bg-primary text-center mb-3">
+            <div class="card-header">Header</div>
+            <div class="card-body">
+                <h4 class="card-title">Yazılan Rapor Sayısı</h4>
+                @if (ViewBag.RaporSayisi > 0)
+                {
+                    <p class="card-text">@ViewBag.RaporSayisi</p>
+                }
+                else
+                {
+                    <p class="card-text">Herhangi Bir Rapor Yazılmamış.</p>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -24,5 +24,15 @@ namespace YSKProje.ToDo.Business.Concrete
         {
             return _userDal.GetirAdminOlmayanlar(out toplamSayfa,aranacakKelime, aktifSayfa);
         }
+
+        public List<DualHelper> GetirEnCokGorevdeCalisanPersoneller()
+        {
+            return _userDal.GetirEnCokGorevdeCalisanPersoneller();
+        }
+
+        public List<DualHelper> GetirEnCokGorevTamamlamisPersoneller()
+        {
+            return _userDal.GetirEnCokGorevTamamlamisPersoneller();
+        }
     }
 }

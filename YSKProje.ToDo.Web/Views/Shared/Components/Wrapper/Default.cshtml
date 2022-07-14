@@ -16,11 +16,11 @@
         <h5>@Model.Name @Model.Surname</h5>
     </div>
     <div class="list-group list-group-flush">
+        <a asp-action="Index" asp-controller="Home" class="list-group-item list-group-item-action @(active=="anasayfa"?"active":"")"><i class="fa-solid fa-house mr-2"></i> Anasayfa</a>
         <a asp-action="Index" asp-controller="Gorev" class="list-group-item list-group-item-action @(active == "gorev"?"active":"")"><i class="fa-solid fa-list-check mr-2"></i> Görev İşlemleri</a>
         <a asp-action="Index" asp-controller="Aciliyet" class="list-group-item list-group-item-action @(active=="aciliyet"?"active":"") "><i class="fa-solid fa-exclamation mr-2"></i> Aciliyet İşlemleri</a>
         <a asp-action="Index" asp-controller="IsEmri" class="list-group-item list-group-item-action @(active=="isemri"?"active":"") "><i class="fa-solid fa-file-lines mr-2"></i> İş Emirleri</a>
-        <a href="#" class="list-group-item list-group-item-action "><i class="fa-solid fa-chart-pie mr-2"></i> Grafikler</a>
-        <a href="#" class="list-group-item list-group-item-action "><i class="fa-solid fa-chart-line mr-2"></i> İstatistikler</a>
+        <a asp-action="Index" asp-controller="Grafik" class="list-group-item list-group-item-action @(active=="grafik"?"active":"")"><i class="fa-solid fa-chart-pie mr-2"></i> Grafikler</a>
         <a asp-action="Index" asp-controller="Bildirim" class="list-group-item list-group-item-action position-relative @(active=="bildirim"?"active":"")">
             <i class="fa-solid fa-bell mr-2"></i>
             @if (ViewBag.BildirimSayisi > 0)
@@ -29,7 +29,7 @@
                     @ViewBag.BildirimSayisi
                 </sub>
             }
-             Bildirimler
+            Bildirimler
         </a>
         <a asp-action="Index" asp-controller="Profil" class="list-group-item list-group-item-action @(active=="profil"?"active":"")"><i class="fa-solid fa-user mr-2"></i> Profilim</a>
         <a asp-area="" asp-action="CikisYap" asp-controller="Home" class="list-group-item list-group-item-action "><i class="fa-solid fa-arrow-right-from-bracket mr-2"></i> Çıkış Yap</a>

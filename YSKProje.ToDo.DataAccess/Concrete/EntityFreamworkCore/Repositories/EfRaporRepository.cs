@@ -19,6 +19,14 @@ namespace YSKProje.ToDo.DataAccess.Concrete.EntityFreamworkCore.Repositories
             }
         }
 
+        public int GetirRaporSayisi()
+        {
+            using (var context = new ToDoContext())
+            {
+                return context.Raporlar.Count();
+            }
+        }
+
         public int GetirRaporSayisiileAppUserId(int id)
         {
             using (var context = new ToDoContext())

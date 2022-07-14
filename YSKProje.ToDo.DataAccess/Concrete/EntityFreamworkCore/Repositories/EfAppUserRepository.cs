@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -78,5 +79,42 @@ namespace YSKProje.ToDo.DataAccess.Concrete.EntityFreamworkCore.Repositories
                 return result.ToList();
             }
         }
+
+
+
+        public List<DualHelper> GetirEnCokGorevTamamlamisPersoneller()
+        {
+            using (var context = new ToDoContext())
+            {
+                return context.Gorevler.Include(I => I.AppUser).Where(I => I.Durum).GroupBy(I => I.AppUser.UserName).OrderByDescending(I=>I.Count()).Take(5)
+                    .Select(I=>new DualHelper { 
+                        
+                        Isim = I.Key,
+                        GorevSayisi = I.Count()
+
+                    }).ToList();
+
+               
+            }
+        }
+
+
+        public List<DualHelper> GetirEnCokGorevdeCalisanPersoneller()
+        {
+            using (var context = new ToDoContext())
+            {
+                return context.Gorevler.Include(I => I.AppUser).Where(I => !I.Durum && I.AppUserId !=null).GroupBy(I => I.AppUser.UserName).OrderByDescending(I => I.Count()).Take(5)
+                    .Select(I => new DualHelper
+                    {
+
+                        Isim = I.Key,
+                        GorevSayisi = I.Count()
+
+                    }).ToList();
+
+                
+            }
+        }
+
     }
 }
