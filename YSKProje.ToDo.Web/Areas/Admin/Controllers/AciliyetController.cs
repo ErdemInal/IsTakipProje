@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using YSKProje.ToDo.Business.Interfaces;
 using YSKProje.ToDo.Entities.Concrete;
 using YSKProje.ToDo.Web.Areas.Admin.Models;
+using AutoMapper;
+using YSKProje.ToDo.DTO.DTOs.AciliyetDtos;
 
 namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
 {
@@ -15,26 +17,29 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
     public class AciliyetController : Controller
     {
         private readonly IAciliyetService _aciliyetService;
+        private readonly IMapper _mapper;
 
-        public AciliyetController(IAciliyetService aciliyetService)
+        public AciliyetController(IAciliyetService aciliyetService, IMapper mapper)
         {
             _aciliyetService = aciliyetService;
+            _mapper = mapper;
         }
         public IActionResult Index()
         {
             TempData["Active"] = "aciliyet";
-            List<Aciliyet> aciliyetler = _aciliyetService.GetirHepsi();
+            //List<Aciliyet> aciliyetler = _aciliyetService.GetirHepsi();
 
-            List<AciliyetListViewModel> model = new List<AciliyetListViewModel>();
+            //List<AciliyetListViewModel> model = new List<AciliyetListViewModel>();
 
-            foreach (var item in aciliyetler)
-            {
-                AciliyetListViewModel aciliyetModel = new AciliyetListViewModel();
-                aciliyetModel.Id = item.Id;
-                aciliyetModel.Tanim = item.Tanim;
+            //foreach (var item in aciliyetler)
+            //{
+            //    AciliyetListViewModel aciliyetModel = new AciliyetListViewModel();
+            //    aciliyetModel.Id = item.Id;
+            //    aciliyetModel.Tanim = item.Tanim;
 
-                model.Add(aciliyetModel);
-            }
+            //    model.Add(aciliyetModel);
+            //}//eski automapper kullanmadan önce
+            var model = _mapper.Map<List<AciliyetListDto>>(_aciliyetService.GetirHepsi());
             return View(model);
         }
 

@@ -15,6 +15,14 @@ using YSKProje.ToDo.DataAccess.Concrete.EntityFreamworkCore.Contexts;
 using YSKProje.ToDo.DataAccess.Concrete.EntityFreamworkCore.Repositories;
 using YSKProje.ToDo.DataAccess.Interfaces;
 using YSKProje.ToDo.Entities.Concrete;
+using FluentValidation.AspNetCore;
+using AutoMapper;
+using FluentValidation;
+using YSKProje.ToDo.DTO.DTOs.AciliyetDtos;
+using YSKProje.ToDo.Business.ValidationRules.FluentValidation;
+using YSKProje.ToDo.DTO.DTOs.AppUserDtos;
+using YSKProje.ToDo.DTO.DTOs.GorevDtos;
+using YSKProje.ToDo.DTO.DTOs.RaporDtos;
 
 namespace YSKProje.ToDo.Web
 {
@@ -63,7 +71,18 @@ namespace YSKProje.ToDo.Web
                 opt.LoginPath = "/Home/Index";
             });
 
-            services.AddControllersWithViews();
+            services.AddAutoMapper(typeof(Startup));//DI aracýlýðý ile ayaða kalkacak
+
+            services.AddTransient<IValidator<AciliyetAddDto>,AciliyetAddValidator>(); //elime herseferide farklý bir nesne örnneði gelsin diye
+            services.AddTransient<IValidator<AciliyetUpdateDto>, AciliyetUpdateValidator>();
+            services.AddTransient<IValidator<AppUserAddDto>, AppUserAddValidator>();
+            services.AddTransient<IValidator<AppUserSignInDto>, AppUserSignInValidator>();
+            services.AddTransient<IValidator<GorevAddDto>, GorevAddValidator>();
+            services.AddTransient<IValidator<GorevUpdateDto>,GorevUpdateValidator>();
+            services.AddTransient<IValidator<RaporAddDto>, RaporAddValidator>();
+            services.AddTransient<IValidator<RaporUpdateDto>, RaporUpdateValidator>();
+
+            services.AddControllersWithViews().AddFluentValidation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
