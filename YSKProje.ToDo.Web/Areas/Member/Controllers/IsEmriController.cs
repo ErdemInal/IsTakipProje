@@ -9,11 +9,12 @@ using YSKProje.ToDo.DTO.DTOs.GorevDtos;
 using YSKProje.ToDo.DTO.DTOs.RaporDtos;
 using YSKProje.ToDo.Entities.Concrete;
 using YSKProje.ToDo.Web.BaseControllers;
+using YSKProje.ToDo.Web.StringInfo;
 
 namespace YSKProje.ToDo.Web.Areas.Member.Controllers
 {
-    [Authorize(Roles="Member")]
-    [Area("Member")]
+    [Authorize(Roles = RoleInfo.Member)]
+    [Area(AreaInfo.Member)]
     public class IsEmriController : BaseIdentityController
     {
         private readonly IGorevService _gorevService;
@@ -32,7 +33,7 @@ namespace YSKProje.ToDo.Web.Areas.Member.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            TempData["Active"] = "isemri";
+            TempData["Active"] = TempdataInfo.IsEmri;
 
             var user = await GetirGirisYapanKullanici();
 
@@ -61,7 +62,7 @@ namespace YSKProje.ToDo.Web.Areas.Member.Controllers
 
         public IActionResult EkleRapor(int id)
         {
-            TempData["Active"] = "isemri";
+            TempData["Active"] = TempdataInfo.IsEmri;
 
             var gorev = _gorevService.GetirAciliyetileId(id);
             var model = _mapper.Map<RaporAddDto>(gorev);
@@ -106,7 +107,7 @@ namespace YSKProje.ToDo.Web.Areas.Member.Controllers
 
         public IActionResult GuncelleRapor(int id)
         {
-            TempData["Active"] = "isemri";
+            TempData["Active"] = TempdataInfo.IsEmri;
 
             var rapor = _raporService.GetirGorevileId(id);
             var model = _mapper.Map<RaporUpdateDto>(rapor);

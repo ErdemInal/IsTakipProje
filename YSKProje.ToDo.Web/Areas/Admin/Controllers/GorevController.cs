@@ -6,11 +6,12 @@ using YSKProje.ToDo.Business.Interfaces;
 using YSKProje.ToDo.Entities.Concrete;
 using AutoMapper;
 using YSKProje.ToDo.DTO.DTOs.GorevDtos;
+using YSKProje.ToDo.Web.StringInfo;
 
 namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    [Area("Admin")]
+    [Authorize(Roles = RoleInfo.Admin)]
+    [Area(AreaInfo.Admin)]
     public class GorevController : Controller
     {
         private readonly IGorevService _gorevService;
@@ -25,7 +26,7 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            TempData["Active"] = "gorev";
+            TempData["Active"] = TempdataInfo.Gorev;
             List<Gorev> gorevler = _gorevService.GetirAciliyetIleTamamlanmayan();
             var models =_mapper.Map<List<GorevListDto>>(gorevler);
             //List<GorevListViewModel> models = new List<GorevListViewModel>();
@@ -50,7 +51,7 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
 
         public IActionResult EkleGorev()
         {
-            TempData["Active"] = "gorev";
+            TempData["Active"] = TempdataInfo.Gorev;
 
             ViewBag.Aciliyetler = new SelectList(_aciliyetService.GetirHepsi(), "Id", "Tanim");
             return View(new GorevAddDto());
@@ -74,7 +75,7 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
 
         public IActionResult GuncelleGorev(int id)
         {
-            TempData["Active"] = "gorev";
+            TempData["Active"] = TempdataInfo.Gorev;
 
             var gorev = _gorevService.GetirIdile(id);
             var model =_mapper.Map<GorevUpdateDto>(gorev);

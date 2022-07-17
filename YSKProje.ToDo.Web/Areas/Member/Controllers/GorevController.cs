@@ -8,11 +8,12 @@ using YSKProje.ToDo.Business.Interfaces;
 using YSKProje.ToDo.DTO.DTOs.GorevDtos;
 using YSKProje.ToDo.Entities.Concrete;
 using YSKProje.ToDo.Web.BaseControllers;
+using YSKProje.ToDo.Web.StringInfo;
 
 namespace YSKProje.ToDo.Web.Areas.Member.Controllers
 {
-    [Authorize(Roles ="Member")]
-    [Area("Member")]
+    [Authorize(Roles = RoleInfo.Member)]
+    [Area(AreaInfo.Member)]
     public class GorevController : BaseIdentityController
     {
         private readonly IGorevService _gorevService;
@@ -27,7 +28,7 @@ namespace YSKProje.ToDo.Web.Areas.Member.Controllers
         }
         public async Task<IActionResult> Index(int aktifSayfa = 1)
         {
-            TempData["Active"] = "gorev";
+            TempData["Active"] = TempdataInfo.Gorev;
             var user = GetirGirisYapanKullanici();
             int toplamSayfa;
             var gorevler = _gorevService.GetirTumTablolarlaTamamlanmayan(out toplamSayfa, user.Id, aktifSayfa);

@@ -8,11 +8,12 @@ using YSKProje.ToDo.Business.Interfaces;
 using YSKProje.ToDo.DTO.DTOs.BildirimDtos;
 using YSKProje.ToDo.Entities.Concrete;
 using YSKProje.ToDo.Web.BaseControllers;
+using YSKProje.ToDo.Web.StringInfo;
 
 namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
 {
-    [Authorize(Roles ="Admin")]
-    [Area("Admin")]
+    [Authorize(Roles = RoleInfo.Admin)]
+    [Area(AreaInfo.Admin)]
     public class BildirimController : BaseIdentityController
     {
         //private readonly UserManager<AppUser> _userManager;
@@ -26,7 +27,7 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            TempData["Active"] = "bildirim";
+            TempData["Active"] = TempdataInfo.Bildirim;
             //var user = await _userManager.FindByNameAsync(User.Identity.Name);
             var user = GetirGirisYapanKullanici();
             var bildirimler = _bildirimService.GetirOkunmayanlar(user.Id);

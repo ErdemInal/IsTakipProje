@@ -8,11 +8,12 @@ using YSKProje.ToDo.Business.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using YSKProje.ToDo.Entities.Concrete;
 using YSKProje.ToDo.Web.BaseControllers;
+using YSKProje.ToDo.Web.StringInfo;
 
 namespace YSKProje.ToDo.Web.Areas.Member.Controllers
 {
-    [Authorize(Roles = "Member")]
-    [Area("Member")]
+    [Authorize(Roles = RoleInfo.Member)]
+    [Area(AreaInfo.Member)]
     public class HomeController : BaseIdentityController
     {
         private readonly IRaporService _raporService;
@@ -28,7 +29,7 @@ namespace YSKProje.ToDo.Web.Areas.Member.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            TempData["Active"] = "anasayfa";
+            TempData["Active"] = TempdataInfo.Anasayfa;
             var user = GetirGirisYapanKullanici();
             var raporSayisi = _raporService.GetirRaporSayisiileAppUserId(user.Id);
             var tamamlananGorevSayisi = _gorevService.GetirGorevSayisiTamamlananileAppUserId(user.Id);

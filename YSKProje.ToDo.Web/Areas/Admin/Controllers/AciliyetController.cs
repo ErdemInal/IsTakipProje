@@ -5,11 +5,12 @@ using YSKProje.ToDo.Business.Interfaces;
 using YSKProje.ToDo.Entities.Concrete;
 using AutoMapper;
 using YSKProje.ToDo.DTO.DTOs.AciliyetDtos;
+using YSKProje.ToDo.Web.StringInfo;
 
 namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    [Area("Admin")]
+    [Authorize(Roles = RoleInfo.Admin)]
+    [Area(AreaInfo.Admin)]
     public class AciliyetController : Controller
     {
         private readonly IAciliyetService _aciliyetService;
@@ -22,7 +23,7 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            TempData["Active"] = "aciliyet";
+            TempData["Active"] = TempdataInfo.Aciliyet;
             //List<Aciliyet> aciliyetler = _aciliyetService.GetirHepsi();
 
             //List<AciliyetListViewModel> model = new List<AciliyetListViewModel>();
@@ -41,7 +42,7 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
 
         public IActionResult EkleAciliyet()
         {
-            TempData["Active"] = "aciliyet";
+            TempData["Active"] = TempdataInfo.Aciliyet;
             return View(new AciliyetAddDto());
         }
 
@@ -61,7 +62,7 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
 
         public IActionResult GuncelleAciliyet(int id)
         {
-            TempData["Active"] = "aciliyet";
+            TempData["Active"] = TempdataInfo.Aciliyet;
             var aciliyet = _aciliyetService.GetirIdile(id);
             var model = _mapper.Map<AciliyetUpdateDto>(aciliyet);
             //AciliyetUpdateViewModel model = new AciliyetUpdateViewModel()

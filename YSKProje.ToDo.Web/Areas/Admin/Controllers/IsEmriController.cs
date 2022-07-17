@@ -9,11 +9,12 @@ using YSKProje.ToDo.Entities.Concrete;
 using AutoMapper;
 using YSKProje.ToDo.DTO.DTOs.GorevDtos;
 using YSKProje.ToDo.DTO.DTOs.AppUserDtos;
+using YSKProje.ToDo.Web.StringInfo;
 
 namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
 {
-    [Area("Admin")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = RoleInfo.Admin)]
+    [Area(AreaInfo.Admin)]
     public class IsEmriController : Controller
     {
         private readonly IAppUserService _appUserService;
@@ -34,7 +35,7 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            TempData["Active"] = "isemri";
+            TempData["Active"] = TempdataInfo.IsEmri;
             //var model = _appUserService.GetirAdminOlmayanlar();
 
             List<Gorev> gorevler = _gorevService.GetirTumTablolarla();
@@ -58,7 +59,7 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
 
         public IActionResult Detaylandir(int id)
         {
-            TempData["Active"] = "isemri";
+            TempData["Active"] = TempdataInfo.IsEmri;
 
             var gorev = _gorevService.GetirRaporlarileId(id);
 
@@ -87,7 +88,7 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
 
         public IActionResult AtaPersonel(int id,string s, int sayfa=1)
         {
-            TempData["Active"] = "isemri";
+            TempData["Active"] = TempdataInfo.IsEmri;
 
             ViewBag.AktifSayfa = sayfa;
             //ViewBag.ToplamSayfa = (int)Math.Ceiling((double)_appUserService.GetirAdminOlmayanlar().Count / 3);
@@ -148,7 +149,7 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
 
         public IActionResult GorevlendirPersonel(PersonelGorevlendirDto model)
         {
-            TempData["Active"] = "isemri";
+            TempData["Active"] = TempdataInfo.IsEmri;
             var user = _userManager.Users.FirstOrDefault(I => I.Id == model.PersonelId);
             var gorev = _gorevService.GetirAciliyetileId(model.GorevId);
 
