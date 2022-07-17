@@ -61,12 +61,15 @@ namespace YSKProje.ToDo.Web
             }
             else
             {
-                app.UseExceptionHandler("/Error");
+                app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseStaticFiles();
+            app.UseStatusCodePagesWithReExecute("/Home/StatusCode","?code={0}");
+
+            //app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseStaticFiles();
             app.UseAuthentication();
             app.UseAuthorization();
             IdentityInitializer.SeedData(userManager, roleManager).Wait();//as olaný senk yerde yaparken

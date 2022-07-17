@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewData["Title"] = "Error";
+    Layout = "~/Views/Shared/_StandartLayout.cshtml";
+}
+
+<div class="row mt-10">
+    <div class="col-md-4">
+        <img src="~/img/Actions-window-close-icon.png" class="w-100 img-fluid" />
+    </div>
+    <div class="col-md-8 display-4">
+        <p class="text-danger lead">Bir hata oluştu.İlgili hata en kısa sürede giderilecek</p>
+        Hatanın Gerçekleştiği Yer : @ViewBag.Path
+        <br />
+        Hata Mesajı : @ViewBag.Message
+    </div>
+</div>
+

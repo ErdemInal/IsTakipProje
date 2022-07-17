@@ -5,6 +5,8 @@ using YSKProje.ToDo.Business.Interfaces;
 using YSKProje.ToDo.Entities.Concrete;
 using YSKProje.ToDo.DTO.DTOs.AppUserDtos;
 using YSKProje.ToDo.Web.BaseControllers;
+using Microsoft.AspNetCore.Diagnostics;
+using System;
 
 namespace YSKProje.ToDo.Web.Controllers
 {
@@ -91,6 +93,30 @@ namespace YSKProje.ToDo.Web.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index");
+        }
+
+        public IActionResult StatusCode(int? code)
+        {
+            if (code == 404)
+            {
+                ViewBag.Code = code;
+                ViewBag.Message = "Sayfa bulunamadı";
+            }
+            
+            return View();
+        }
+
+        public IActionResult Error()
+        {
+            var exceptionHandler = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+            ViewBag.Path = exceptionHandler.Path;
+            ViewBag.Message = exceptionHandler.Error.Message;
+            return View();
+        }
+
+        public void Hata()
+        {
+            //throw new Exception("Bu bir hata");
         }
     }
 }
