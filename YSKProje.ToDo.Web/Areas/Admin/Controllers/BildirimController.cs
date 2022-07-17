@@ -29,7 +29,7 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
         {
             TempData["Active"] = TempdataInfo.Bildirim;
             //var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            var user = GetirGirisYapanKullanici();
+            var user = await GetirGirisYapanKullanici();
             var bildirimler = _bildirimService.GetirOkunmayanlar(user.Id);
 
             //List<BildirimListViewModel> models = new List<BildirimListViewModel>();
