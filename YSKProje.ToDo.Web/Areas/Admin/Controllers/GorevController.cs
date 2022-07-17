@@ -1,14 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using YSKProje.ToDo.Business.Interfaces;
 using YSKProje.ToDo.Entities.Concrete;
-using YSKProje.ToDo.Web.Areas.Admin.Models;
 using AutoMapper;
 using YSKProje.ToDo.DTO.DTOs.GorevDtos;
 

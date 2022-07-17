@@ -7,30 +7,32 @@ using Microsoft.AspNetCore.Authorization;
 using YSKProje.ToDo.Business.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using YSKProje.ToDo.Entities.Concrete;
+using YSKProje.ToDo.Web.BaseControllers;
 
 namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
 {
     [Authorize(Roles = "Admin")]
     [Area("Admin")]
-    public class HomeController : Controller
+    public class HomeController : BaseIdentityController
     {
         private readonly IGorevService _gorevService;
         private readonly IBildirimService _bildirimService;
-        private readonly UserManager<AppUser> _userManager;
+        //private readonly UserManager<AppUser> _userManager;
         private readonly IRaporService _raporService;
 
-        public HomeController(IGorevService gorevService, IBildirimService bildirimService, UserManager<AppUser> userManager, IRaporService raporService)
+        public HomeController(IGorevService gorevService, IBildirimService bildirimService, UserManager<AppUser> userManager, IRaporService raporService):base(userManager)
         {
             _gorevService = gorevService;
             _bildirimService = bildirimService;
-            _userManager = userManager;
+            //_userManager = userManager;
             _raporService = raporService;
         }
         public async Task<IActionResult> Index()
         {
             TempData["Active"] = "anasayfa";
 
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            //var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var user = await GetirGirisYapanKullanici();
             var atanmayiBekleyenGorev = _gorevService.GetirAtanmayiBekleyenGorevSayisi();
             var tamamlanmısGorev = _gorevService.GetirGorevTamamlanmıs();
             var okunmamisBildirim = _bildirimService.GetirOkunmayanBildirimSayisiileAppUserId(user.Id);

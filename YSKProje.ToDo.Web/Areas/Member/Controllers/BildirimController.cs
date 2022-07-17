@@ -2,34 +2,32 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using YSKProje.ToDo.Business.Interfaces;
 using YSKProje.ToDo.DTO.DTOs.BildirimDtos;
 using YSKProje.ToDo.Entities.Concrete;
-using YSKProje.ToDo.Web.Areas.Admin.Models;
+using YSKProje.ToDo.Web.BaseControllers;
 
 namespace YSKProje.ToDo.Web.Areas.Member.Controllers
 {
     [Authorize(Roles ="Member")]
     [Area("Member")]
-    public class BildirimController : Controller
+    public class BildirimController : BaseIdentityController
     {
-        private readonly UserManager<AppUser> _userManager;
+        //private readonly UserManager<AppUser> _userManager;
         private readonly IBildirimService _bildirimService;
         private readonly IMapper _mapper;
-        public BildirimController(UserManager<AppUser> userManager, IBildirimService bildirimService, IMapper mapper)
+        public BildirimController(UserManager<AppUser> userManager, IBildirimService bildirimService, IMapper mapper) : base(userManager)
         {
-            _userManager = userManager;
+            //_userManager = userManager;
             _bildirimService = bildirimService;
             _mapper = mapper;
         }
         public async Task<IActionResult> Index()
         {
             TempData["Active"] = "bildirim";
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var user = GetirGirisYapanKullanici();
             var bildirimler = _bildirimService.GetirOkunmayanlar(user.Id);
 
             var models = _mapper.Map<List<BildirimListDto>>(bildirimler);

@@ -2,35 +2,33 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using YSKProje.ToDo.Business.Interfaces;
 using YSKProje.ToDo.DTO.DTOs.GorevDtos;
 using YSKProje.ToDo.Entities.Concrete;
-using YSKProje.ToDo.Web.Areas.Admin.Models;
+using YSKProje.ToDo.Web.BaseControllers;
 
 namespace YSKProje.ToDo.Web.Areas.Member.Controllers
 {
     [Authorize(Roles ="Member")]
     [Area("Member")]
-    public class GorevController : Controller
+    public class GorevController : BaseIdentityController
     {
         private readonly IGorevService _gorevService;
-        private readonly UserManager<AppUser> _userManager;
+        //private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
 
-        public GorevController(IGorevService gorevService, UserManager<AppUser> userManager, IMapper mapper)
+        public GorevController(IGorevService gorevService, UserManager<AppUser> userManager, IMapper mapper) : base(userManager)
         {
             _gorevService = gorevService;
-            _userManager = userManager;
+            //_userManager = userManager;
             _mapper = mapper;
         }
         public async Task<IActionResult> Index(int aktifSayfa = 1)
         {
             TempData["Active"] = "gorev";
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var user = GetirGirisYapanKullanici();
             int toplamSayfa;
             var gorevler = _gorevService.GetirTumTablolarlaTamamlanmayan(out toplamSayfa, user.Id, aktifSayfa);
 

@@ -1,25 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using YSKProje.ToDo.Business.Interfaces;
 using YSKProje.ToDo.Entities.Concrete;
-using YSKProje.ToDo.Web.Models;
 using YSKProje.ToDo.DTO.DTOs.AppUserDtos;
+using YSKProje.ToDo.Web.BaseControllers;
 
 namespace YSKProje.ToDo.Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseIdentityController
     {
         private readonly IGorevService _gorevService;
-        private readonly UserManager<AppUser> _userManager;
+       //private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
-        public HomeController(IGorevService gorevService, UserManager<AppUser> userManager,SignInManager<AppUser> signInManager)
+        public HomeController(IGorevService gorevService, UserManager<AppUser> userManager,SignInManager<AppUser> signInManager):base(userManager)
         {
             _gorevService = gorevService;
-            _userManager = userManager;
+            //_userManager = userManager;
             _signInManager = signInManager;
         }
         public IActionResult Index()
@@ -82,15 +79,9 @@ namespace YSKProje.ToDo.Web.Controllers
                         return RedirectToAction("Index");
                     }
 
-                    foreach (var item in addRoleResult.Errors)
-                    {
-                        ModelState.AddModelError("", item.Description);
-                    }
+                    HataEkle(addRoleResult.Errors);
                 }
-                foreach (var item in result.Errors)
-                {
-                    ModelState.AddModelError("", item.Description);
-                }
+                HataEkle(result.Errors);
             }
 
             return View(model);

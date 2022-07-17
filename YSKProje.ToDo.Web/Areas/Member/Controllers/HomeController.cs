@@ -7,28 +7,29 @@ using Microsoft.AspNetCore.Authorization;
 using YSKProje.ToDo.Business.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using YSKProje.ToDo.Entities.Concrete;
+using YSKProje.ToDo.Web.BaseControllers;
 
 namespace YSKProje.ToDo.Web.Areas.Member.Controllers
 {
     [Authorize(Roles = "Member")]
     [Area("Member")]
-    public class HomeController : Controller
+    public class HomeController : BaseIdentityController
     {
         private readonly IRaporService _raporService;
-        private readonly UserManager<AppUser> _userManager;
+        //private readonly UserManager<AppUser> _userManager;
         private readonly IGorevService _gorevService;
         private readonly IBildirimService _bildirimService;
-        public HomeController(IRaporService raporService, UserManager<AppUser> userManager, IGorevService gorevService, IBildirimService bildirimService)
+        public HomeController(IRaporService raporService, UserManager<AppUser> userManager, IGorevService gorevService, IBildirimService bildirimService) : base(userManager)
         {
             _raporService = raporService;
-            _userManager = userManager;
+            //_userManager = userManager;
             _gorevService = gorevService;
             _bildirimService = bildirimService;
         }
         public async Task<IActionResult> Index()
         {
             TempData["Active"] = "anasayfa";
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var user = GetirGirisYapanKullanici();
             var raporSayisi = _raporService.GetirRaporSayisiileAppUserId(user.Id);
             var tamamlananGorevSayisi = _gorevService.GetirGorevSayisiTamamlananileAppUserId(user.Id);
             var bildirim = _bildirimService.GetirOkunmayanBildirimSayisiileAppUserId(user.Id);
