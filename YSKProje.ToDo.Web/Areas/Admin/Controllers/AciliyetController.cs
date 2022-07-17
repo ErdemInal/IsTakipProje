@@ -46,11 +46,11 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
         public IActionResult EkleAciliyet()
         {
             TempData["Active"] = "aciliyet";
-            return View(new AciliyetAddViewModel());
+            return View(new AciliyetAddDto());
         }
 
         [HttpPost]
-        public IActionResult EkleAciliyet(AciliyetAddViewModel model)
+        public IActionResult EkleAciliyet(AciliyetAddDto model)
         {
             if (ModelState.IsValid)
             {
@@ -67,16 +67,17 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
         {
             TempData["Active"] = "aciliyet";
             var aciliyet = _aciliyetService.GetirIdile(id);
-            AciliyetUpdateViewModel model = new AciliyetUpdateViewModel()
-            {
-                Id = aciliyet.Id,
-                Tanim = aciliyet.Tanim
-            };
+            var model = _mapper.Map<AciliyetUpdateDto>(aciliyet);
+            //AciliyetUpdateViewModel model = new AciliyetUpdateViewModel()
+            //{
+            //    Id = aciliyet.Id,
+            //    Tanim = aciliyet.Tanim
+            //};
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult GuncelleAciliyet(AciliyetUpdateViewModel model)
+        public IActionResult GuncelleAciliyet(AciliyetUpdateDto model)
         {
             if (ModelState.IsValid)
             {

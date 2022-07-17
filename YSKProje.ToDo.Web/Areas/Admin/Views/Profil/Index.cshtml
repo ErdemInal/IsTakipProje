@@ -1,4 +1,4 @@
-﻿@model AppUserListViewModel
+﻿@model AppUserListDto
 
 @{
     ViewData["Title"] = "Index";
@@ -19,19 +19,19 @@
     <input type="hidden" asp-for="@Model.Id" />
     <div class="form-group">
 
-        <label asp-for="@Model.Name"></label>
+        <label asp-for="@Model.Name"> Ad :</label>
         <span asp-validation-for="@Model.Name" class="text-danger"></span>
         <input asp-for="@Model.Name" class="form-control" />
 
-        <label asp-for="@Model.Surname"></label>
+        <label asp-for="@Model.Surname">Soyad :</label>
         <span asp-validation-for="@Model.Surname" class="text-danger"></span>
         <input asp-for="@Model.Surname" class="form-control" />
 
-        <label asp-for="@Model.Email"></label>
+        <label asp-for="@Model.Email"> Email :</label>
         <span asp-validation-for="@Model.Email" class="text-danger"></span>
         <input asp-for="@Model.Email" class="form-control" />
 
-        <label asp-for="@Model.Picture"></label>
+        <label asp-for="@Model.Picture">Resim :</label>
         <span asp-validation-for="@Model.Picture" class="text-danger"></span>
         <input asp-for="@Model.Picture" class="form-control" />
 

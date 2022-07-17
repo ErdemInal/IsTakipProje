@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using YSKProje.ToDo.Business.Interfaces;
 using YSKProje.ToDo.Entities.Concrete;
 using YSKProje.ToDo.Web.Areas.Admin.Models;
+using AutoMapper;
+using YSKProje.ToDo.DTO.DTOs.GorevDtos;
 
 namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
 {
@@ -18,33 +20,36 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
     {
         private readonly IGorevService _gorevService;
         private readonly IAciliyetService _aciliyetService;
+        private readonly IMapper _mapper;
 
-        public GorevController(IGorevService gorevService,IAciliyetService aciliyetService)
+        public GorevController(IGorevService gorevService,IAciliyetService aciliyetService, IMapper mapper)
         {
             _gorevService = gorevService;
             _aciliyetService = aciliyetService;
+            _mapper = mapper;
         }
         public IActionResult Index()
         {
             TempData["Active"] = "gorev";
             List<Gorev> gorevler = _gorevService.GetirAciliyetIleTamamlanmayan();
-            List<GorevListViewModel> models = new List<GorevListViewModel>();
+            var models =_mapper.Map<List<GorevListDto>>(gorevler);
+            //List<GorevListViewModel> models = new List<GorevListViewModel>();
 
-            foreach (var item in gorevler)
-            {
-                GorevListViewModel model = new GorevListViewModel
-                {
-                    Aciklama = item.Aciklama,
-                    Aciliyet = item.Aciliyet,
-                    AciliyetId = item.AciliyetId,
-                    Ad = item.Ad,
-                    Durum = item.Durum,
-                    Id = item.Id,
-                    OlusturulmaTarih = item.OlusturulmaTarih
-                };
-                models.Add(model);
+            //foreach (var item in gorevler)
+            //{
+            //    GorevListViewModel model = new GorevListViewModel
+            //    {
+            //        Aciklama = item.Aciklama,
+            //        Aciliyet = item.Aciliyet,
+            //        AciliyetId = item.AciliyetId,
+            //        Ad = item.Ad,
+            //        Durum = item.Durum,
+            //        Id = item.Id,
+            //        OlusturulmaTarih = item.OlusturulmaTarih
+            //    };
+            //    models.Add(model);
 
-            }
+            //}
             return View(models);
         }
 
@@ -53,11 +58,11 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
             TempData["Active"] = "gorev";
 
             ViewBag.Aciliyetler = new SelectList(_aciliyetService.GetirHepsi(), "Id", "Tanim");
-            return View(new GorevAddViewModel());
+            return View(new GorevAddDto());
         }
 
         [HttpPost]
-        public IActionResult EkleGorev(GorevAddViewModel model)
+        public IActionResult EkleGorev(GorevAddDto model)
         {
             if (ModelState.IsValid)
             {
@@ -77,19 +82,20 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
             TempData["Active"] = "gorev";
 
             var gorev = _gorevService.GetirIdile(id);
-            GorevUpdateViewModel model = new GorevUpdateViewModel
-            {
-                Id = gorev.Id,
-                Aciklama = gorev.Aciklama,
-                AciliyetId = gorev.AciliyetId,
-                Ad = gorev.Ad
-            };
+            var model =_mapper.Map<GorevUpdateDto>(gorev);
+            //GorevUpdateViewModel model = new GorevUpdateViewModel
+            //{
+            //    Id = gorev.Id,
+            //    Aciklama = gorev.Aciklama,
+            //    AciliyetId = gorev.AciliyetId,
+            //    Ad = gorev.Ad
+            //};
             ViewBag.Aciliyetler = new SelectList(_aciliyetService.GetirHepsi(), "Id", "Tanim", gorev.AciliyetId);
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult GuncelleGorev(GorevUpdateViewModel model)
+        public IActionResult GuncelleGorev(GorevUpdateDto model)
         {
             if (ModelState.IsValid)
             {

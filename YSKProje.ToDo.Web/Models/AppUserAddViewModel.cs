@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace YSKProje.ToDo.Web.Models
 {
-    public class AppUserAddViewModel
+    public class AppUserAddViewDto
     {
         [Required(ErrorMessage = "Kullanıcı Adı boş geçilemez")]
         [Display(Name = "Kullanıcı Adı:")]

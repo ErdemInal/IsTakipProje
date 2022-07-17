@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Identity;
 using YSKProje.ToDo.Business.Interfaces;
 using YSKProje.ToDo.Entities.Concrete;
 using YSKProje.ToDo.Web.Areas.Admin.Models;
+using AutoMapper;
+using YSKProje.ToDo.DTO.DTOs.GorevDtos;
+using YSKProje.ToDo.DTO.DTOs.AppUserDtos;
 
 namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
 {
@@ -20,15 +23,16 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly IDosyaService _dosyaService;
         private readonly IBildirimService _bildirimService;
+        private readonly IMapper _mapper;
 
-        public IsEmriController(IAppUserService appUserService, IGorevService gorevService, UserManager<AppUser> userManager,IDosyaService dosyaService, IBildirimService bildirimService)
+        public IsEmriController(IAppUserService appUserService, IGorevService gorevService, UserManager<AppUser> userManager,IDosyaService dosyaService, IBildirimService bildirimService, IMapper mapper)
         {
             _appUserService = appUserService;
             _gorevService = gorevService;
             _userManager = userManager;
             _dosyaService = dosyaService;
             _bildirimService = bildirimService;
-
+            _mapper = mapper;
         }
         public IActionResult Index()
         {
@@ -36,19 +40,20 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
             //var model = _appUserService.GetirAdminOlmayanlar();
 
             List<Gorev> gorevler = _gorevService.GetirTumTablolarla();
-            List<GorevListViewAllModel> models = new List<GorevListViewAllModel>();
-            foreach (var item in gorevler)
-            {
-                GorevListViewAllModel model = new GorevListViewAllModel();
-                model.Id = item.Id;
-                model.Aciklama = item.Aciklama;
-                model.Aciliyet = item.Aciliyet;
-                model.Ad = item.Ad;
-                model.AppUser = item.AppUser;
-                model.OlusturulmaTarih = item.OlusturulmaTarih;
-                model.Raporlar = item.Raporlar;
-                models.Add(model);
-            }
+            var models = _mapper.Map<List<GorevListAllDto>>(gorevler);
+            //List<GorevListViewAllModel> models = new List<GorevListViewAllModel>();
+            //foreach (var item in gorevler)
+            //{
+            //    GorevListViewAllModel model = new GorevListViewAllModel();
+            //    model.Id = item.Id;
+            //    model.Aciklama = item.Aciklama;
+            //    model.Aciliyet = item.Aciliyet;
+            //    model.Ad = item.Ad;
+            //    model.AppUser = item.AppUser;
+            //    model.OlusturulmaTarih = item.OlusturulmaTarih;
+            //    model.Raporlar = item.Raporlar;
+            //    models.Add(model);
+            //}
 
             return View(models);
         }
@@ -58,12 +63,15 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
             TempData["Active"] = "isemri";
 
             var gorev = _gorevService.GetirRaporlarileId(id);
-            GorevListViewAllModel model = new GorevListViewAllModel();
-            model.Id = gorev.Id;
-            model.Raporlar = gorev.Raporlar;
-            model.Ad = gorev.Ad;
-            model.Aciklama = gorev.Aciklama;
-            model.AppUser = gorev.AppUser;
+
+            var model = _mapper.Map<GorevListAllDto>(gorev);
+
+            //GorevListViewAllModel model = new GorevListViewAllModel();
+            //model.Id = gorev.Id;
+            //model.Raporlar = gorev.Raporlar;
+            //model.Ad = gorev.Ad;
+            //model.Aciklama = gorev.Aciklama;
+            //model.AppUser = gorev.AppUser;
 
             return View(model);
         }
@@ -95,33 +103,36 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
 
             ViewBag.ToplamSayfa = toplamSayfa;
 
-            List<AppUserListViewModel> appUserListModel = new List<AppUserListViewModel>(); 
-            foreach (var item in personeller)
-            {
-                AppUserListViewModel model = new AppUserListViewModel();
-                model.Id = item.Id;
-                model.Name = item.Name;
-                model.Surname = item.Surname;
-                model.Email = item.Email;
-                model.Picture = item.Picture;
-                appUserListModel.Add(model);
-            }
+            var appUserListModel = _mapper.Map<List<AppUserListDto>>(personeller);
+            //List<AppUserListViewModel> appUserListModel = new List<AppUserListViewModel>(); 
+            //foreach (var item in personeller)
+            //{
+            //    AppUserListViewModel model = new AppUserListViewModel();
+            //    model.Id = item.Id;
+            //    model.Name = item.Name;
+            //    model.Surname = item.Surname;
+            //    model.Email = item.Email;
+            //    model.Picture = item.Picture;
+            //    appUserListModel.Add(model);
+            //}
 
             ViewBag.Personeller = appUserListModel;
 
-            GorevListViewModel gorevModel = new GorevListViewModel();
-            gorevModel.Id = gorev.Id;
-            gorevModel.Ad = gorev.Ad;
-            gorevModel.Aciklama = gorev.Aciklama;
-            gorevModel.Aciliyet = gorev.Aciliyet;
-            gorevModel.OlusturulmaTarih = gorev.OlusturulmaTarih;
+           var gorevModel = _mapper.Map<GorevListDto>(gorev);
+
+            //GorevListViewModel gorevModel = new GorevListViewModel();
+            //gorevModel.Id = gorev.Id;
+            //gorevModel.Ad = gorev.Ad;
+            //gorevModel.Aciklama = gorev.Aciklama;
+            //gorevModel.Aciliyet = gorev.Aciliyet;
+            //gorevModel.OlusturulmaTarih = gorev.OlusturulmaTarih;
 
             return View(gorevModel);
         }
 
         //bildirim gonderilecek
         [HttpPost]
-        public IActionResult AtaPersonel(PersonelGorevlendirViewModel model)
+        public IActionResult AtaPersonel(PersonelGorevlendirDto model)
         {
             var guncellenecekGorev = _gorevService.GetirIdile(model.GorevId);
             guncellenecekGorev.AppUserId = model.PersonelId;
@@ -137,26 +148,29 @@ namespace YSKProje.ToDo.Web.Areas.Admin.Controllers
         }
 
 
-        public IActionResult GorevlendirPersonel(PersonelGorevlendirViewModel model)
+        public IActionResult GorevlendirPersonel(PersonelGorevlendirDto model)
         {
             TempData["Active"] = "isemri";
             var user = _userManager.Users.FirstOrDefault(I => I.Id == model.PersonelId);
             var gorev = _gorevService.GetirAciliyetileId(model.GorevId);
 
-            AppUserListViewModel userModel = new AppUserListViewModel();
-            userModel.Id = user.Id;
-            userModel.Name = user.Name;
-            userModel.Picture = user.Picture;
-            userModel.Surname = user.Surname;
-            userModel.Email = user.Email;
+            var userModel = _mapper.Map<AppUserListDto>(user);
 
-            GorevListViewModel gorevModel = new GorevListViewModel();
-            gorevModel.Id = gorev.Id;
-            gorevModel.Aciklama = gorev.Aciklama;
-            gorevModel.Aciliyet = gorev.Aciliyet;
-            gorevModel.Ad = gorev.Ad;
+            //AppUserListViewModel userModel = new AppUserListViewModel();
+            //userModel.Id = user.Id;
+            //userModel.Name = user.Name;
+            //userModel.Picture = user.Picture;
+            //userModel.Surname = user.Surname;
+            //userModel.Email = user.Email;
 
-            PersonelGorevlendirListViewModel personelGorevlendirModel = new PersonelGorevlendirListViewModel();
+            var gorevModel = _mapper.Map<GorevListDto>(gorev);
+            //GorevListViewModel gorevModel = new GorevListViewModel();
+            //gorevModel.Id = gorev.Id;
+            //gorevModel.Aciklama = gorev.Aciklama;
+            //gorevModel.Aciliyet = gorev.Aciliyet;
+            //gorevModel.Ad = gorev.Ad;
+
+            PersonelGorevlendirListDto personelGorevlendirModel = new PersonelGorevlendirListDto();
             personelGorevlendirModel.AppUser = userModel;
             personelGorevlendirModel.Gorev = gorevModel;
             
